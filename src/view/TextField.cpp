@@ -22,7 +22,7 @@ TextField::TextField(int width,int height) : QGraphicsTextItem()
 }
 
 void TextField::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-    QPixmap pixmap(":/images/input");
+    QPixmap pixmap (":/images/input");
     pixmap=pixmap.scaled(width,height);
     painter->setBrush(pixmap);
     painter->drawRect(QGraphicsTextItem::boundingRect());

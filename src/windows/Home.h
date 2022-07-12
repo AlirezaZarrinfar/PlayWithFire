@@ -6,7 +6,9 @@
 class Home :public QGraphicsView{
 Q_OBJECT
 private:
-    TextField *textField;
+    TextField *textField1;
+    TextField *textField2;
+
 public:
   Home();
 
