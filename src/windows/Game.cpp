@@ -5,7 +5,9 @@
 #include "Game.h"
 #include "../view/Wall.h"
 #include "../view/Character.h"
+#include "../view/Bomb.h"
 #include <QKeyEvent>
+#include <QTimer>
 
 Game::Game(QString name1,QString name2) : QGraphicsView(){
     setFocus();
@@ -61,6 +63,12 @@ void Game::keyPressEvent(QKeyEvent *event) {
     {
         redChar->moveChar(redChar->x() ,redChar->y()- scene()->height()/15);
     }
+    else if(event->key() == Qt::Key::Key_Space)
+    {
+        auto bomb = redChar->createBomb();
+        if(bomb != nullptr)
+        scene()->addItem(bomb);
+    }
     //Blue Char
     if(event->key() == Qt::Key::Key_D)
     {
@@ -79,7 +87,12 @@ void Game::keyPressEvent(QKeyEvent *event) {
     {
         blueChar->moveChar(blueChar->x() ,blueChar->y()- scene()->height()/15);
     }
-
+    else if(event->key() == Qt::Key::Key_X)
+    {
+        auto bomb = blueChar->createBomb();
+        if(bomb != nullptr)
+            scene()->addItem(bomb);
+    }
 }
 
 

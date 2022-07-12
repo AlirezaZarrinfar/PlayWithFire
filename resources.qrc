@@ -6,5 +6,6 @@
         <file alias="wall">resources/images/wall.png</file>
         <file alias="charRed">resources/images/character-red.png</file>
         <file alias="charBlue">resources/images/character-blue.png</file>
+        <file alias="bomb">resources/images/Bomb_icon.png</file>
     </qresource>
 </RCC>

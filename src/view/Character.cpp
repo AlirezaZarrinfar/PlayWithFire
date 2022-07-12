@@ -1,6 +1,7 @@
 #include "Character.h"
 #include <QGraphicsItem>
 #include "../view/Wall.h"
+#include "../view/Bomb.h"
 
 Character::Character(QString icon , int width , int height) : heigth(height), width(width) {
     QPixmap pixmap (":/images/" + icon);
@@ -25,5 +26,23 @@ void Character::moveChar(int x, int y) {
     setPos(x,y);
     if(CheckWall()) {
         setPos(tempX, tempY);
+    }
+}
+
+Bomb * Character::createBomb() {
+    if(bombCreated == 0)
+    {
+        bomb = new Bomb(x(), y(), heigth, width);
+        bombCreated++;
+        return bomb;
+    }
+    else if(!bomb->isActived) {
+        bomb = new Bomb(x(), y(), heigth, width);
+        bombCreated++;
+        return bomb;
+    }
+    else
+    {
+        return nullptr;
     }
 }
