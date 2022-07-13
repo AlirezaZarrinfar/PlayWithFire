@@ -1,5 +1,6 @@
 #include "Empty.h"
 #include "Box.h"
+#include "Character.h"
 
 Empty::Empty(int x , int y ,int width,int height) : QGraphicsPixmapItem(){
 
@@ -15,6 +16,12 @@ bool Empty::checkBox() {
         if(box != nullptr)
         {
             delete box;
+            return true;
+        }
+        Character *character = dynamic_cast<Character *>(item);
+        if(character != nullptr)
+        {
+            character->life -- ;
             return true;
         }
         return false;

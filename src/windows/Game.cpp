@@ -8,12 +8,16 @@
 #include <iostream>
 #include "../view/Empty.h"
 #include <QRandomGenerator>
+#include "../view/Label.h"
 #include "time.h"
+
 Game::Game(QString name1,QString name2) : QGraphicsView(){
     setFocus();
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     showFullScreen();
+
+
 
     auto scene =new QGraphicsScene(this);
     scene->setSceneRect(0,0,width(),height());
@@ -66,6 +70,24 @@ Game::Game(QString name1,QString name2) : QGraphicsView(){
     blueChar = new Character("charBlue", width(), height());
     blueChar->setPos(scene->width()*13/15 ,scene->height()*13/15);
     scene->addItem(blueChar);
+
+
+
+    scene->addRect(QRect(scene->width()/20 , 0,2.65*(scene->width()/15),scene->height()/16),QPen(QColor("black"),3),QBrush(QColor("Black")));
+
+    label1 = new Label();
+    label1->setPos(scene->width()/20,0);
+    scene->addItem(label1);
+    QString string = QString::number(redChar->life);
+    label1->setDefaultTextColor(QColor("Red"));
+    label1->setPlainText("Player Red : " + string);
+
+    label2 = new Label();
+    label2->setPos(2*(scene->width()/15),0);
+    scene->addItem(label2);
+    QString string2 = QString::number(blueChar->life);
+    label2->setDefaultTextColor(QColor("Blue"));
+    label2->setPlainText("Player Blue : " + string);
 
 }
 void Game::keyPressEvent(QKeyEvent *event) {
@@ -126,9 +148,7 @@ void Game::keyPressEvent(QKeyEvent *event) {
 
 void Game::bombDestroyed(int x , int y) {
     auto Empty = new class Empty(x,y,width(),height());
-    Empty->setPos(x,y);
     scene()->addItem(Empty);
-    Empty->checkBox();
     Empty->setPos(x + (scene()->width()/15),y);
     Empty->checkBox();
     Empty->setPos(x - (scene()->width()/15),y);
@@ -145,6 +165,23 @@ void Game::bombDestroyed(int x , int y) {
     Empty->checkBox();
     Empty->setPos(x - (scene()->width()/15) ,y + (scene()->height()/15));
     Empty->checkBox();
+
+    if(redChar->x() == x && redChar->y() == y)
+        redChar->life--;
+
+    if (blueChar->x() == x && blueChar->y() == y)
+        blueChar->life--;
+
     delete Empty;
+    if (blueChar->life == 0 || redChar->life==0)
+    {
+        close();
+    }
+    QString string = QString::number(redChar->life);
+    label1->setPlainText("Player Red : " + string);
+
+    QString string2 = QString::number(blueChar->life);
+    label2->setPlainText("Player Blue : " + string2);
+
 }
 

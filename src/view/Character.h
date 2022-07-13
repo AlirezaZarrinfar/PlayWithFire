@@ -11,6 +11,7 @@ private:
     int bombCreated{0};
     Bomb * bomb{nullptr};
 public:
+    int life{5};
     Character(QString icon, int width , int height);
     bool checkWallOrBox();
     bool chechCharacter();
