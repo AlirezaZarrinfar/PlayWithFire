@@ -3,6 +3,7 @@
 #include "../view/Wall.h"
 #include "../view/Bomb.h"
 #include "../view/Box.h"
+#include "Label.h"
 
 Character::Character(QString icon , int width , int height) : heigth(height), width(width) {
     QPixmap pixmap (":/images/" + icon);
@@ -13,9 +14,10 @@ Character::Character(QString icon , int width , int height) : heigth(height), wi
     bool Character::checkWallOrBox() {
         for(QGraphicsItem *item : collidingItems())
         {
+            Label *label = dynamic_cast<Label *>(item);
             Wall *wall = dynamic_cast<Wall *>(item);
             Box *box = dynamic_cast<Box *>(item);
-            if(wall != nullptr || box != nullptr)
+            if(wall != nullptr || box != nullptr || label != nullptr)
             {
                 return true;
             }

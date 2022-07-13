@@ -73,7 +73,7 @@ Game::Game(QString name1,QString name2) : QGraphicsView(){
 
 
 
-    scene->addRect(QRect(scene->width()/20 , 0,2.65*(scene->width()/15),scene->height()/16),QPen(QColor("black"),3),QBrush(QColor("Black")));
+    scene->addRect(QRect(scene->width()/20 , 0,2.65*(scene->width()/15),scene->height()/18),QPen(QColor("black"),3),QBrush(QColor("Black")));
 
     label1 = new Label();
     label1->setPos(scene->width()/20,0);
