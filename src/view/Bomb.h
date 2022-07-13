@@ -5,7 +5,7 @@
 
 
 class Bomb : public QObject, public QGraphicsPixmapItem{
-    Q_OBJECT
+Q_OBJECT
 private:
     int x{};
     int y{};
@@ -18,6 +18,8 @@ public:
     void Timer();
 public slots:
     void explosion();
+signals:
+    void destroyed(int x,int y);
 };
 
 

@@ -12,7 +12,8 @@ private:
     Bomb * bomb{nullptr};
 public:
     Character(QString icon, int width , int height);
-    bool CheckWall();
+    bool checkWallOrBox();
+    bool chechCharacter();
     void moveChar(int x , int y);
     Bomb * createBomb();
 };

@@ -2,9 +2,9 @@
 #include <QTimer>
 Bomb::Bomb(int x,int y,int height , int width) : x(x) , height(height) , width(width) , y(y) {
     QPixmap pixmap (":/images/bomb");
-    pixmap = pixmap.scaled(width/30,height/20+5);
+    pixmap = pixmap.scaled(width/15,height/15);
     setPixmap(pixmap);
-    setPos(x+30,y);
+    setPos(x,y);
     Timer();
 }
 
@@ -17,6 +17,7 @@ void Bomb::Timer() {
 }
 void Bomb::explosion() {
     isActived = false;
+    emit destroyed(x,y);
     delete timer;
     delete this;
 }

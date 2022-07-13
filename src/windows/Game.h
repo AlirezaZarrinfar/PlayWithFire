@@ -3,14 +3,14 @@
 #include <QGraphicsView>
 #include "../view/Character.h"
 
-
 class Game : public QGraphicsView{
 private:
     Character * redChar;
     Character * blueChar;
 public:
     Game(QString name1,QString name2);
-
+public slots:
+    void bombDestroyed(int x , int y);
 protected:
     void keyPressEvent(QKeyEvent *event) override;
 };

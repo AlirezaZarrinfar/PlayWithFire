@@ -1,14 +1,14 @@
-//
-// Created by AIDA on 7/12/2022.
-//
-
 #include "Game.h"
 #include "../view/Wall.h"
 #include "../view/Character.h"
 #include "../view/Bomb.h"
+#include "../view/Box.h"
 #include <QKeyEvent>
 #include <QTimer>
-
+#include <iostream>
+#include "../view/Empty.h"
+#include <QRandomGenerator>
+#include "time.h"
 Game::Game(QString name1,QString name2) : QGraphicsView(){
     setFocus();
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -17,11 +17,9 @@ Game::Game(QString name1,QString name2) : QGraphicsView(){
 
     auto scene =new QGraphicsScene(this);
     scene->setSceneRect(0,0,width(),height());
-    scene->setBackgroundBrush(QColor(":/image/bg1"));
+    scene->setBackgroundBrush(QColor("black"));
     setScene(scene);
 
-    auto blockWidth=width()/15;
-    auto blockHeight=height()/15;
 
     for(int i=0;i<15;i++)
         for(int j=0;j<15;j++){
@@ -29,17 +27,44 @@ Game::Game(QString name1,QString name2) : QGraphicsView(){
             if(i !=0&&i !=14 && j !=0 && j !=14 &&
                     (j%2 !=0 || i%2 !=0))
                 continue;
-            auto wall =new Wall(blockWidth,blockHeight);
+            auto wall =new Wall(width(),height());
             scene->addItem(wall);
-            wall->setPos(blockWidth* i,blockHeight* j);
-
+            wall->setPos(width()/15* i,height()/15* j);
         }
+
+    srand(time(0));
+
+    for (int z = 0;z<70;z++) {
+      int i = rand()%15;
+      int j = rand()%15;
+      if (i != 0 && i != 14 && j != 0 && j != 14 &&
+          (j % 2 != 0 || i % 2 != 0) && !(i == 1 && j==1) && !(i == 1 && j==2) && !(i == 2 && j==1)
+          && !(i == 12 && j==13) && !(i == 13 && j==13) && !(i == 13 && j==12)
+          && !(i == 1 && j==3) && !(i == 3 && j==1) && !(i == 11 && j==13) && !(i == 13 && j==11)
+          ) {
+
+          auto box = new class Box(width(), height());
+          box->setPos(i * (width() / 15), j * (height() / 15));
+          scene->addItem(box);
+          if(box->checkBox())
+          {
+              delete box;
+              z--;
+          }
+      }
+      else
+      {
+          z--;
+      }
+  }
+
+
     redChar = new Character("charRed", width(), height());
-    redChar->setPos(135,75);
+    redChar->setPos(scene->width()/15,scene->height()/15);
     scene->addItem(redChar);
 
     blueChar = new Character("charBlue", width(), height());
-    blueChar->setPos(1671,939);
+    blueChar->setPos(scene->width()*13/15 ,scene->height()*13/15);
     scene->addItem(blueChar);
 
 }
@@ -66,8 +91,10 @@ void Game::keyPressEvent(QKeyEvent *event) {
     else if(event->key() == Qt::Key::Key_Space)
     {
         auto bomb = redChar->createBomb();
-        if(bomb != nullptr)
-        scene()->addItem(bomb);
+        if(bomb != nullptr){
+            connect(bomb,&Bomb::destroyed, this, &Game::bombDestroyed);
+            scene()->addItem(bomb);
+        }
     }
     //Blue Char
     if(event->key() == Qt::Key::Key_D)
@@ -90,9 +117,34 @@ void Game::keyPressEvent(QKeyEvent *event) {
     else if(event->key() == Qt::Key::Key_X)
     {
         auto bomb = blueChar->createBomb();
-        if(bomb != nullptr)
+        if(bomb != nullptr) {
+            connect(bomb, &Bomb::destroyed, this, &Game::bombDestroyed);
             scene()->addItem(bomb);
+        }
     }
 }
 
+void Game::bombDestroyed(int x , int y) {
+    auto Empty = new class Empty(x,y,width(),height());
+    Empty->setPos(x,y);
+    scene()->addItem(Empty);
+    Empty->checkBox();
+    Empty->setPos(x + (scene()->width()/15),y);
+    Empty->checkBox();
+    Empty->setPos(x - (scene()->width()/15),y);
+    Empty->checkBox();
+    Empty->setPos(x ,y - (scene()->height()/15));
+    Empty->checkBox();
+    Empty->setPos(x ,y + (scene()->height()/15));
+    Empty->checkBox();
+    Empty->setPos(x + (scene()->width()/15),y+ (scene()->height()/15));
+    Empty->checkBox();
+    Empty->setPos(x - (scene()->width()/15),y- (scene()->height()/15));
+    Empty->checkBox();
+    Empty->setPos(x + (scene()->width()/15) ,y - (scene()->height()/15));
+    Empty->checkBox();
+    Empty->setPos(x - (scene()->width()/15) ,y + (scene()->height()/15));
+    Empty->checkBox();
+    delete Empty;
+}
 

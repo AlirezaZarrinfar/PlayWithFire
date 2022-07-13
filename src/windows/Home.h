@@ -3,12 +3,11 @@
 #include <QGraphicsView>
 #include "../view/TextField.h"
 
-class Home :public QGraphicsView{
+class Home : public QGraphicsView{
 Q_OBJECT
 private:
     TextField *textField1;
     TextField *textField2;
-
 public:
   Home();
 
