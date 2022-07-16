@@ -3,6 +3,7 @@
 #include "../view/Wall.h"
 #include "../view/Bomb.h"
 #include "../view/Box.h"
+#include "../view/Block.h"
 #include "Label.h"
 
 Character::Character(QString icon , int width , int height) : heigth(height), width(width) {
@@ -15,9 +16,8 @@ Character::Character(QString icon , int width , int height) : heigth(height), wi
         for(QGraphicsItem *item : collidingItems())
         {
             Label *label = dynamic_cast<Label *>(item);
-            Wall *wall = dynamic_cast<Wall *>(item);
-            Box *box = dynamic_cast<Box *>(item);
-            if(wall != nullptr || box != nullptr || label != nullptr)
+            Block *block = dynamic_cast<Block *>(item);
+            if(block != nullptr || label != nullptr)
             {
                 return true;
             }
@@ -50,12 +50,14 @@ Character::Character(QString icon , int width , int height) : heigth(height), wi
         if(bombCreated == 0)
         {
             bomb = new Bomb(x(), y(), heigth, width);
+            bomb->bombSender = type;
             bombCreated++;
             return bomb;
         }
         else if(!bomb->isActived) {
             bomb = new Bomb(x(), y(), heigth, width);
-        bombCreated++;
+            bomb->bombSender = type;
+            bombCreated++;
         return bomb;
     }
     else

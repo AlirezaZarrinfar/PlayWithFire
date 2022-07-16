@@ -10,14 +10,14 @@ Bomb::Bomb(int x,int y,int height , int width) : x(x) , height(height) , width(w
 
 void Bomb::Timer() {
     timer = new QTimer();
-    timer->setInterval(3000);
+    timer->setInterval(bombTime*1000);
     timer->start();
     isActived = true;
     connect(timer,&QTimer::timeout, this,&Bomb::explosion);
 }
 void Bomb::explosion() {
     isActived = false;
-    emit destroyed(x,y);
+    emit destroyed(x,y,bombSender);
     delete timer;
     delete this;
 }

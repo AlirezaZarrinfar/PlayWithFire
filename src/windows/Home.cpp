@@ -29,17 +29,17 @@ Home::Home() {
     scene->addItem(textField3);
     textField3->setPos(width()/2,height()/2-200);
 
-    auto label1= new Label();
+    auto label1= new Label(scene->width(),scene->height());
     label1->setPlainText("Player 1 Name :");
     scene->addItem(label1);
     label1->setPos(width()/2,height()/2-label1->boundingRect().height()-100);
 
-    auto label2= new Label();
+    auto label2= new Label(scene->width(),scene->height());
     label2->setPlainText("Player 2 Name :");
     scene->addItem(label2);
     label2->setPos(width()/2,height()/2-label2->boundingRect().height());
 
-    auto label3= new Label();
+    auto label3= new Label(scene->width(),scene->height());
     label2->setPlainText("Players life :");
     scene->addItem(label3);
     label2->setPos(width()/2,height()/2-label3->boundingRect().height()-200);

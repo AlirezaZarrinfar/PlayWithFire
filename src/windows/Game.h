@@ -10,11 +10,13 @@ private:
     Character * blueChar;
     Label * label1 ;
     Label * label2 ;
+    Label * label3 ;
+    Label * label4 ;
 
 public:
     Game(QString name1,QString name2);
 public slots:
-    void bombDestroyed(int x , int y);
+    void bombDestroyed(int x , int y , QString bombSender);
 protected:
     void keyPressEvent(QKeyEvent *event) override;
 };

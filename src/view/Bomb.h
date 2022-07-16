@@ -13,13 +13,15 @@ private:
     int height{};
     QTimer *timer;
 public:
+    int bombTime{3};
+    QString bombSender{};
     bool isActived{false};
     Bomb(int x,int y,int height , int width);
     void Timer();
 public slots:
     void explosion();
 signals:
-    void destroyed(int x,int y);
+    void destroyed(int x,int y , QString bombsender);
 };
 
 

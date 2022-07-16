@@ -4,7 +4,7 @@
 
 class Label : public QGraphicsTextItem{
 public:
-    Label();
+    Label(int width , int height);
 };
 
 

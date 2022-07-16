@@ -12,6 +12,9 @@ private:
     Bomb * bomb{nullptr};
 public:
     int life{5};
+    QString type {};
+    int score{0};
+    int bombRadius{};
     Character(QString icon, int width , int height);
     bool checkWallOrBox();
     bool chechCharacter();

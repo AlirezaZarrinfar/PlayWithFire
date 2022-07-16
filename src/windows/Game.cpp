@@ -8,6 +8,7 @@
 #include <iostream>
 #include "../view/Empty.h"
 #include <QRandomGenerator>
+#include <QDebug>
 #include "../view/Label.h"
 #include "time.h"
 
@@ -38,7 +39,7 @@ Game::Game(QString name1,QString name2) : QGraphicsView(){
 
     srand(time(0));
 
-    for (int z = 0;z<70;z++) {
+    for (int z = 0;z<80;z++) {
       int i = rand()%15;
       int j = rand()%15;
       if (i != 0 && i != 14 && j != 0 && j != 14 &&
@@ -65,29 +66,49 @@ Game::Game(QString name1,QString name2) : QGraphicsView(){
 
     redChar = new Character("charRed", width(), height());
     redChar->setPos(scene->width()/15,scene->height()/15);
+    redChar->bombRadius = 3;
+    redChar->type = "Red";
     scene->addItem(redChar);
 
     blueChar = new Character("charBlue", width(), height());
     blueChar->setPos(scene->width()*13/15 ,scene->height()*13/15);
+    blueChar->type = "Blue";
+    blueChar->bombRadius = 2;
     scene->addItem(blueChar);
 
 
 
-    scene->addRect(QRect(scene->width()/20 , 0,2.65*(scene->width()/15),scene->height()/18),QPen(QColor("black"),3),QBrush(QColor("Black")));
+    scene->addRect(QRect(scene->width()/23 , 0,2.3*(scene->width()/15),scene->height()/22),QPen(QColor("black"),1),QBrush(QColor("Orange")));
+    scene->addRect(QRect(scene->width()/2 - scene->width()/13 , 0,3.5*(scene->width()/15),scene->height()/22),QPen(QColor("Black"),1),QBrush(QColor("Orange")));
 
-    label1 = new Label();
+    label1 = new Label(scene->width(),scene->height());
     label1->setPos(scene->width()/20,0);
     scene->addItem(label1);
     QString string = QString::number(redChar->life);
     label1->setDefaultTextColor(QColor("Red"));
-    label1->setPlainText("Player Red : " + string);
+    label1->setPlainText("Red life: " + string);
 
-    label2 = new Label();
+    label2 = new Label(scene->width(),scene->height());
     label2->setPos(2*(scene->width()/15),0);
     scene->addItem(label2);
     QString string2 = QString::number(blueChar->life);
     label2->setDefaultTextColor(QColor("Blue"));
-    label2->setPlainText("Player Blue : " + string);
+    label2->setPlainText("Blue life: " + string2);
+
+
+    label3 = new Label(scene->width(),scene->height());
+    label3->setPos((scene->width()/2)-(scene->width()/15),0);
+    scene->addItem(label3);
+    QString string3 = QString::number(redChar->score);
+    label3->setDefaultTextColor(QColor("Red"));
+    label3->setPlainText("Player Red : " + string3);
+
+    label4 = new Label(scene->width(),scene->height());
+    label4->setPos((scene->width()/2)+(scene->width()/15),0);
+    scene->addItem(label4);
+    QString string4 = QString::number(blueChar->score);
+    label4->setDefaultTextColor(QColor("Blue"));
+    label4->setPlainText("Player Blue : " + string4);
 
 }
 void Game::keyPressEvent(QKeyEvent *event) {
@@ -146,42 +167,99 @@ void Game::keyPressEvent(QKeyEvent *event) {
     }
 }
 
-void Game::bombDestroyed(int x , int y) {
-    auto Empty = new class Empty(x,y,width(),height());
+void Game::bombDestroyed(int x , int y , QString bombSender) {
+    Character * temp ;
+    if (bombSender == "Red")
+    {
+        temp = redChar;
+    }
+    else
+    {
+        temp = blueChar;
+    }
+    auto Empty = new class Empty(x,y,width(),height(),temp);
     scene()->addItem(Empty);
-    Empty->setPos(x + (scene()->width()/15),y);
-    Empty->checkBox();
-    Empty->setPos(x - (scene()->width()/15),y);
-    Empty->checkBox();
-    Empty->setPos(x ,y - (scene()->height()/15));
-    Empty->checkBox();
-    Empty->setPos(x ,y + (scene()->height()/15));
-    Empty->checkBox();
-    Empty->setPos(x + (scene()->width()/15),y+ (scene()->height()/15));
-    Empty->checkBox();
-    Empty->setPos(x - (scene()->width()/15),y- (scene()->height()/15));
-    Empty->checkBox();
-    Empty->setPos(x + (scene()->width()/15) ,y - (scene()->height()/15));
-    Empty->checkBox();
-    Empty->setPos(x - (scene()->width()/15) ,y + (scene()->height()/15));
-    Empty->checkBox();
+    scene()->removeItem(redChar);
+    scene()->addItem(redChar);
+    scene()->removeItem(blueChar);
+    scene()->addItem(blueChar);
+    Empty->setPos(x ,y);
+    Empty->checkBoxOrChar();
+    for (int i = 1; i <= temp->bombRadius; i++)
+    {
+        Empty->setPos(x + i * (scene()->width() / 15), y);
+        if (Empty->checkWall())
+        {
+            break;
+        }
+        else {
+            Empty->checkBoxOrChar();
+        }
+    }
+//
+    for (int i = 1; i <= temp->bombRadius; i++)
+    {
+        Empty->setPos(x - i * (scene()->width() / 15), y);
+        if (Empty->checkWall())
+        {
+            break;
+        }
+        else {
+            Empty->checkBoxOrChar();
+        }
+    }
+    //
 
-    if(redChar->x() == x && redChar->y() == y)
-        redChar->life--;
+    for (int i = 1; i <= temp->bombRadius; i++)
+    {
+        Empty->setPos(x, y + i * (scene()->height() / 15));
+        if (Empty->checkWall())
+        {
+            break;
+        }
+        else {
+            Empty->checkBoxOrChar();
+        }
+    }
+//
+    for (int i = 1; i <= temp->bombRadius; i++)
+    {
+        Empty->setPos(x, y - i * (scene()->height() / 15));
+        if (Empty->checkWall())
+        {
+            break;
+        }
+        else {
+            Empty->checkBoxOrChar();
+        }
+    }
 
-    if (blueChar->x() == x && blueChar->y() == y)
-        blueChar->life--;
-
+    /*
+      Empty->setPos(x + (scene()->width()/15),y+ (scene()->height()/15));
+      Empty->checkBoxOrChar();
+      Empty->setPos(x - (scene()->width()/15),y- (scene()->height()/15));
+      Empty->checkBoxOrChar();
+      Empty->setPos(x + (scene()->width()/15) ,y - (scene()->height()/15));
+      Empty->checkBoxOrChar();
+      Empty->setPos(x - (scene()->width()/15) ,y + (scene()->height()/15));
+      Empty->checkBoxOrChar();
+      */
     delete Empty;
     if (blueChar->life == 0 || redChar->life==0)
     {
         close();
     }
     QString string = QString::number(redChar->life);
-    label1->setPlainText("Player Red : " + string);
+    label1->setPlainText("Red life: " + string);
 
     QString string2 = QString::number(blueChar->life);
-    label2->setPlainText("Player Blue : " + string2);
+    label2->setPlainText("Blue life: " + string2);
+
+    QString string3 = QString::number(redChar->score);
+    label3->setPlainText("Player Red : " + string3);
+
+    QString string4 = QString::number(blueChar->score);
+    label4->setPlainText("Player Blue : " + string4);
 
 }
 
