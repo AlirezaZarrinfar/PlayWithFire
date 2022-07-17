@@ -8,5 +8,6 @@
         <file alias="charBlue">resources/images/character-blue.png</file>
         <file alias="bomb">resources/images/Bomb_icon.png</file>
         <file alias="empty">resources/images/empty.png</file>
+        <file alias="home">resources/images/Home.png</file>
     </qresource>
 </RCC>

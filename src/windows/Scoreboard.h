@@ -1,13 +1,12 @@
-//
-// Created by zarri on 7/17/2022.
-//
-
 #ifndef PLAYWITHFIRE_SCOREBOARD_H
 #define PLAYWITHFIRE_SCOREBOARD_H
 
 
-class Scoreboard {
+#include <QGraphicsView>
 
+class Scoreboard : public QGraphicsView{
+public:
+    Scoreboard(int redScore , int blueScore);
 };
 
 

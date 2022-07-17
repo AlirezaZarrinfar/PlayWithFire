@@ -11,6 +11,7 @@
 #include <QDebug>
 #include "../view/Label.h"
 #include "time.h"
+#include "Scoreboard.h"
 
 Game::Game(QString name1,QString name2) : QGraphicsView(){
     setFocus();
@@ -66,14 +67,12 @@ Game::Game(QString name1,QString name2) : QGraphicsView(){
 
     redChar = new Character("charRed", width(), height());
     redChar->setPos(scene->width()/15,scene->height()/15);
-    redChar->bombRadius = 3;
     redChar->type = "Red";
     scene->addItem(redChar);
 
     blueChar = new Character("charBlue", width(), height());
     blueChar->setPos(scene->width()*13/15 ,scene->height()*13/15);
     blueChar->type = "Blue";
-    blueChar->bombRadius = 2;
     scene->addItem(blueChar);
 
 
@@ -248,6 +247,7 @@ void Game::bombDestroyed(int x , int y , QString bombSender) {
     if (blueChar->life == 0 || redChar->life==0)
     {
         close();
+        (new Scoreboard(redChar->score,blueChar->score))->show();
     }
     QString string = QString::number(redChar->life);
     label1->setPlainText("Red life: " + string);

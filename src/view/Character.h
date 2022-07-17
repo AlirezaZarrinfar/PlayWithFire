@@ -11,10 +11,10 @@ private:
     int bombCreated{0};
     Bomb * bomb{nullptr};
 public:
-    int life{5};
+    int life{3};
     QString type {};
     int score{0};
-    int bombRadius{};
+    int bombRadius{2};
     Character(QString icon, int width , int height);
     bool checkWallOrBox();
     bool chechCharacter();

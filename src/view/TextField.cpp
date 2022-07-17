@@ -6,12 +6,12 @@
 TextField::TextField(int width,int height) : QGraphicsTextItem()
                     ,width(width),height(height)
 {
-    setDefaultTextColor(QColor("white"));
+    setDefaultTextColor(QColor("black"));
 
     QFont font;
-    font.setPixelSize(23);
+   // font.setPixelSize(width*height/100000);
     font.setBold(true);
-    setFont(font);
+   // setFont(font);
 
 //Text in Editor Mode
     setTextInteractionFlags(Qt::TextEditorInteraction);

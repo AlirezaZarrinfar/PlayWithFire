@@ -23,7 +23,9 @@ bool Empty::checkBoxOrChar() {
         Character *character = dynamic_cast<Character *>(item);
         if(character != nullptr)
         {
-            character->life -- ;
+            if(!(character == bombSender)) {
+                character->life--;
+            }
             if (character != bombSender && character->life == 0)
             {
                 bombSender->score += 50;
