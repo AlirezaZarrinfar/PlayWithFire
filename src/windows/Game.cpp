@@ -65,15 +65,22 @@ Game::Game(QString name1,QString name2,int lifes) : QGraphicsView(){
           z--;
       }
   }
+    QList<QString>  redPix;
+    redPix.append("charRed1");
+    redPix.append("charRed2");
 
-
-    redChar = new Character("charRed", width(), height());
+    redChar = new Character(redPix, width(), height());
     redChar->setPos(scene->width()/15,scene->height()/15);
     redChar->type = "Red";
     redChar->life = lifes;
     scene->addItem(redChar);
 
-    blueChar = new Character("charBlue", width(), height());
+    QList<QString>  bluePix;
+    bluePix.append("charBlue1");
+    bluePix.append("charBlue2");
+
+
+    blueChar = new Character(bluePix, width(), height());
     blueChar->setPos(scene->width()*13/15 ,scene->height()*13/15);
     blueChar->type = "Blue";
     blueChar->life = lifes;
@@ -94,9 +101,7 @@ Game::Game(QString name1,QString name2,int lifes) : QGraphicsView(){
     label2->setDefaultTextColor(QColor("Blue"));
     label2->setPlainText(name2 +" life: " + string2);
 
-    scene->addRect(QRect(scene->width()/23 , 0,(label1->toPlainText().size() + label2->toPlainText().size())*width()/160,scene->height()/22),QPen(QColor("black"),1),QBrush(QColor("Orange")));
-    scene->addItem(label2);
-    scene->addItem(label1);
+
 
     label3 = new Label(scene->width(),scene->height());
     label3->setPos((scene->width()/2)-(scene->width()/15),0);
@@ -110,8 +115,10 @@ Game::Game(QString name1,QString name2,int lifes) : QGraphicsView(){
     label4->setDefaultTextColor(QColor("Blue"));
     label4->setPlainText(name2 +" : " + string4);
 
-    scene->addRect(QRect(scene->width()/2 - scene->width()/13 , 0,(label3->toPlainText().size() + label4->toPlainText().size())*width()/90,scene->height()/22),QPen(QColor("Black"),1),QBrush(QColor("Orange")));
-
+  //  scene->addRect(QRect(scene->width()/2 - scene->width()/13 , 0,(label3->toPlainText().size() + label4->toPlainText().size())*width()/80,scene->height()/22),QPen(QColor("Black"),1),QBrush(QColor("Orange")));
+    scene->addRect(QRect(scene->width()/23 , 0,width()-scene->width()/11,scene->height()/22),QPen(QColor("black"),1),QBrush(QColor("Orange")));
+    scene->addItem(label2);
+    scene->addItem(label1);
     scene->addItem(label3);
     scene->addItem(label4);
 

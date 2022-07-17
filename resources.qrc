@@ -4,8 +4,10 @@
         <file alias="button">resources/images/button.png</file>
         <file alias="input">resources/images/input.png</file>
         <file alias="wall">resources/images/wall.png</file>
-        <file alias="charRed">resources/images/character-red.png</file>
-        <file alias="charBlue">resources/images/character-blue.png</file>
+        <file alias="charRed1">resources/images/character-red1.png</file>
+        <file alias="charRed2">resources/images/character-red2.png</file>
+        <file alias="charBlue1">resources/images/character-blue1.png</file>
+        <file alias="charBlue2">resources/images/character-blue2.png</file>
         <file alias="bomb">resources/images/Bomb_icon.png</file>
         <file alias="empty">resources/images/empty.png</file>
         <file alias="home">resources/images/Home.png</file>

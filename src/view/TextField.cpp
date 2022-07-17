@@ -6,12 +6,12 @@
 TextField::TextField(int width,int height) : QGraphicsTextItem()
                     ,width(width),height(height)
 {
+
     setDefaultTextColor(QColor("black"));
     QFont font;
     font.setPixelSize(width/30*height/30);
     font.setBold(true);
     setFont(font);
-
 //Text in Editor Mode
     setTextInteractionFlags(Qt::TextEditorInteraction);
 
@@ -29,7 +29,7 @@ void TextField::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     //Boarder
     QStyleOptionGraphicsItem newOption(*option);
     newOption.state=QStyle::State_None;
-    QGraphicsTextItem::paint(painter, option, widget);
+    QGraphicsTextItem::paint(painter, &newOption, widget);
 }
 
 QRectF TextField::boundingRect() const {

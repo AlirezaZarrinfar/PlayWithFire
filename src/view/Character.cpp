@@ -6,8 +6,9 @@
 #include "../view/Block.h"
 #include "Label.h"
 
-Character::Character(QString icon , int width , int height) : heigth(height), width(width) {
-    QPixmap pixmap (":/images/" + icon);
+Character::Character(QList<QString> list, int width , int height) : heigth(height), width(width) {
+    this->list = list;
+    pixmap =  QPixmap(":/images/" + list.at(0));
     pixmap = pixmap.scaled(width/15,height/15);
         setPixmap(pixmap);
     }
@@ -38,11 +39,18 @@ Character::Character(QString icon , int width , int height) : heigth(height), wi
     }
 
     void Character::moveChar(int x, int y) {
+
         int tempX = this->x();
         int tempY = this->y();
         setPos(x,y);
         if(checkWallOrBox() || chechCharacter()) {
             setPos(tempX, tempY);
+        }
+        else{
+            i++;
+            pixmap = QPixmap(":/images/" + list.at(i%2));
+            pixmap = pixmap.scaled(width / 15, heigth / 15);
+            setPixmap(pixmap);
         }
     }
 

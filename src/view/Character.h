@@ -10,12 +10,15 @@ private:
     int heigth{};
     int bombCreated{0};
     Bomb * bomb{nullptr};
+    QPixmap pixmap;
+    QList<QString> list;
+    int i{0};
 public:
     int life{3};
     QString type {};
     int score{0};
     int bombRadius{2};
-    Character(QString icon, int width , int height);
+    Character(QList<QString> list, int width , int height);
     bool checkWallOrBox();
     bool chechCharacter();
     void moveChar(int x , int y);
