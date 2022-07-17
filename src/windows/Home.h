@@ -8,6 +8,7 @@ Q_OBJECT
 private:
     TextField *textField1;
     TextField *textField2;
+    TextField *textField3;
 public:
   Home();
 

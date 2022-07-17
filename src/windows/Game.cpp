@@ -12,14 +12,16 @@
 #include "../view/Label.h"
 #include "time.h"
 #include "Scoreboard.h"
-
-Game::Game(QString name1,QString name2) : QGraphicsView(){
+#include <QMediaPlayer>
+#include <QAudioOutput>
+Game::Game(QString name1,QString name2,int lifes) : QGraphicsView(){
     setFocus();
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     showFullScreen();
 
-
+    this->name1 = name1;
+    this->name2 = name2;
 
     auto scene =new QGraphicsScene(this);
     scene->setSceneRect(0,0,width(),height());
@@ -68,46 +70,50 @@ Game::Game(QString name1,QString name2) : QGraphicsView(){
     redChar = new Character("charRed", width(), height());
     redChar->setPos(scene->width()/15,scene->height()/15);
     redChar->type = "Red";
+    redChar->life = lifes;
     scene->addItem(redChar);
 
     blueChar = new Character("charBlue", width(), height());
     blueChar->setPos(scene->width()*13/15 ,scene->height()*13/15);
     blueChar->type = "Blue";
+    blueChar->life = lifes;
     scene->addItem(blueChar);
 
 
 
-    scene->addRect(QRect(scene->width()/23 , 0,2.3*(scene->width()/15),scene->height()/22),QPen(QColor("black"),1),QBrush(QColor("Orange")));
-    scene->addRect(QRect(scene->width()/2 - scene->width()/13 , 0,3.5*(scene->width()/15),scene->height()/22),QPen(QColor("Black"),1),QBrush(QColor("Orange")));
 
     label1 = new Label(scene->width(),scene->height());
     label1->setPos(scene->width()/20,0);
-    scene->addItem(label1);
     QString string = QString::number(redChar->life);
     label1->setDefaultTextColor(QColor("Red"));
-    label1->setPlainText("Red life: " + string);
+    label1->setPlainText(name1 + " life: " + string);
 
     label2 = new Label(scene->width(),scene->height());
     label2->setPos(2*(scene->width()/15),0);
-    scene->addItem(label2);
     QString string2 = QString::number(blueChar->life);
     label2->setDefaultTextColor(QColor("Blue"));
-    label2->setPlainText("Blue life: " + string2);
+    label2->setPlainText(name2 +" life: " + string2);
 
+    scene->addRect(QRect(scene->width()/23 , 0,(label1->toPlainText().size() + label2->toPlainText().size())*width()/160,scene->height()/22),QPen(QColor("black"),1),QBrush(QColor("Orange")));
+    scene->addItem(label2);
+    scene->addItem(label1);
 
     label3 = new Label(scene->width(),scene->height());
     label3->setPos((scene->width()/2)-(scene->width()/15),0);
-    scene->addItem(label3);
     QString string3 = QString::number(redChar->score);
     label3->setDefaultTextColor(QColor("Red"));
-    label3->setPlainText("Player Red : " + string3);
+    label3->setPlainText(name1 +" : " + string3);
 
     label4 = new Label(scene->width(),scene->height());
     label4->setPos((scene->width()/2)+(scene->width()/15),0);
-    scene->addItem(label4);
     QString string4 = QString::number(blueChar->score);
     label4->setDefaultTextColor(QColor("Blue"));
-    label4->setPlainText("Player Blue : " + string4);
+    label4->setPlainText(name2 +" : " + string4);
+
+    scene->addRect(QRect(scene->width()/2 - scene->width()/13 , 0,(label3->toPlainText().size() + label4->toPlainText().size())*width()/90,scene->height()/22),QPen(QColor("Black"),1),QBrush(QColor("Orange")));
+
+    scene->addItem(label3);
+    scene->addItem(label4);
 
 }
 void Game::keyPressEvent(QKeyEvent *event) {
@@ -250,16 +256,16 @@ void Game::bombDestroyed(int x , int y , QString bombSender) {
         (new Scoreboard(redChar->score,blueChar->score))->show();
     }
     QString string = QString::number(redChar->life);
-    label1->setPlainText("Red life: " + string);
+    label1->setPlainText(name1 + " life: " + string);
 
     QString string2 = QString::number(blueChar->life);
-    label2->setPlainText("Blue life: " + string2);
+    label2->setPlainText(name2 + " life: " + string2);
 
     QString string3 = QString::number(redChar->score);
-    label3->setPlainText("Player Red : " + string3);
+    label3->setPlainText(name1 + " : " + string3);
 
     QString string4 = QString::number(blueChar->score);
-    label4->setPlainText("Player Blue : " + string4);
+    label4->setPlainText(name2 + " : " + string4);
 
 }
 

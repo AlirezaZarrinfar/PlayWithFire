@@ -12,9 +12,10 @@ private:
     Label * label2 ;
     Label * label3 ;
     Label * label4 ;
-
+    QString name1;
+    QString name2;
 public:
-    Game(QString name1,QString name2);
+    Game(QString name1,QString name2,int lifes);
 public slots:
     void bombDestroyed(int x , int y , QString bombSender);
 protected:

@@ -7,11 +7,10 @@ TextField::TextField(int width,int height) : QGraphicsTextItem()
                     ,width(width),height(height)
 {
     setDefaultTextColor(QColor("black"));
-
     QFont font;
-   // font.setPixelSize(width*height/100000);
+    font.setPixelSize(width/30*height/30);
     font.setBold(true);
-   // setFont(font);
+    setFont(font);
 
 //Text in Editor Mode
     setTextInteractionFlags(Qt::TextEditorInteraction);

@@ -10,16 +10,16 @@ set(CMAKE_PREFIX_PATH "C:/Qt/6.2.4/mingw_64")
 find_package(Qt6 COMPONENTS
         Core
         Gui
-        Widgets
         Multimedia
+        Widgets
         REQUIRED)
 
 add_executable(PlayWithFire main.cpp src/windows/Home.cpp src/windows/Home.h src/view/TextField.cpp src/view/TextField.h resources.qrc src/view/Label.cpp src/view/Label.h src/view/Button.cpp src/view/Button.h src/windows/Game.cpp src/windows/Game.h src/view/Box.cpp src/view/Box.h src/view/Wall.cpp src/view/Wall.h src/view/Character.cpp src/view/Character.h src/view/Bomb.cpp src/view/Bomb.h src/view/Empty.cpp src/view/Empty.h src/view/Block.cpp src/view/Block.h src/windows/Scoreboard.cpp src/windows/Scoreboard.h)
 target_link_libraries(PlayWithFire
         Qt6::Core
         Qt6::Gui
-        Qt6::Widgets
         Qt6::Multimedia
+        Qt6::Widgets
         )
 
 if (WIN32)

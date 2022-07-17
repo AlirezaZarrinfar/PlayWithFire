@@ -18,18 +18,15 @@ Home::Home() {
 
     scene->addItem(item);
     textField1= new TextField(scene->width()/9,scene->height()/15);
-    textField1->setPlainText("");
     scene->addItem(textField1);
     textField1->setPos(width()/2,height()/2);
 
     textField2 = new TextField(scene->width()/9,scene->height()/15);
-    textField2->setPlainText("");
     scene->addItem(textField2);
     textField2->setPos(width()/2,height()/2-height()/10.5);
 
 
-    auto textField3 = new TextField(scene->width()/9,scene->height()/15);
-    textField3->setPlainText("");
+    textField3 = new TextField(scene->width()/9,scene->height()/15);
     scene->addItem(textField3);
     textField3->setPos(width()/2,height()/2-(2*height()/10.5));
 
@@ -62,8 +59,16 @@ Home::Home() {
 void Home::onGameStart() {
     auto name1=textField1->toPlainText();
     auto name2 = textField2->toPlainText();
-    close();
-    (new Game(name1,name2))->show();
+    auto lifes = textField3->toPlainText().toInt();
+
+    if(lifes == 0)
+    {
+        textField3->setPlainText("please enter number");
+    }
+    else if (!(name2.isEmpty()) && !(name1.isEmpty()))
+    {
+        (new Game(name1,name2,lifes))->show();
+    }
 }
 
 
