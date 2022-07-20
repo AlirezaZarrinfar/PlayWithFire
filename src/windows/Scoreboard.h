@@ -6,7 +6,7 @@
 
 class Scoreboard : public QGraphicsView{
 public:
-    Scoreboard(int redScore , int blueScore);
+    Scoreboard(int redScore , int blueScore , QString name1 , QString name2);
 };
 
 

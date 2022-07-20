@@ -11,5 +11,6 @@
         <file alias="bomb">resources/images/Bomb_icon.png</file>
         <file alias="empty">resources/images/empty.png</file>
         <file alias="home">resources/images/Home.png</file>
+        <file alias="end">resources/images/endpage.png</file>
     </qresource>
 </RCC>

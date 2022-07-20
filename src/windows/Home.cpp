@@ -3,6 +3,8 @@
 #include "../view/Label.h"
 #include "../view/Button.h"
 #include "Game.h"
+#include "Scoreboard.h"
+
 Home::Home() {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -68,6 +70,8 @@ void Home::onGameStart() {
     else if (!(name2.isEmpty()) && !(name1.isEmpty()))
     {
         (new Game(name1,name2,lifes))->show();
+        this->close();
+       // (new Scoreboard(100,150,name1,name2))->show();
     }
 }
 

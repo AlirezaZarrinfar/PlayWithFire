@@ -14,12 +14,17 @@
 #include "Scoreboard.h"
 #include <QMediaPlayer>
 #include <QAudioOutput>
+#include <QLabel>
+#include <QMovie>
+#include <QGraphicsProxyWidget>
+
+
 Game::Game(QString name1,QString name2,int lifes) : QGraphicsView(){
     setFocus();
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    showFullScreen();
-
+   showFullScreen();
+    //resize(1920/2*1.5,1080/2*1.5);
     this->name1 = name1;
     this->name2 = name2;
 
@@ -27,6 +32,7 @@ Game::Game(QString name1,QString name2,int lifes) : QGraphicsView(){
     scene->setSceneRect(0,0,width(),height());
     scene->setBackgroundBrush(QColor("black"));
     setScene(scene);
+
 
 
     for(int i=0;i<15;i++)
@@ -121,6 +127,7 @@ Game::Game(QString name1,QString name2,int lifes) : QGraphicsView(){
     scene->addItem(label1);
     scene->addItem(label3);
     scene->addItem(label4);
+
 
 }
 void Game::keyPressEvent(QKeyEvent *event) {
@@ -260,7 +267,7 @@ void Game::bombDestroyed(int x , int y , QString bombSender) {
     if (blueChar->life == 0 || redChar->life==0)
     {
         close();
-        (new Scoreboard(redChar->score,blueChar->score))->show();
+        (new Scoreboard(redChar->score,blueChar->score,name1,name2))->show();
     }
     QString string = QString::number(redChar->life);
     label1->setPlainText(name1 + " life: " + string);
