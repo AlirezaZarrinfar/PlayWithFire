@@ -42,7 +42,7 @@ Scoreboard::Scoreboard(int redScore , int blueScore,QString name1 , QString name
     auto scores = new Label(width()*1.5,height()*1.5);
     scores->setPlainText(name1 + " = " + red + "  -  " + name2 + " = " + blue);
     scores->setPos((scene->width()/7),scene->height()-scene->height()/8);
-    scores->setDefaultTextColor(QColor("#569556"));
+    scores->setDefaultTextColor(QColor("white"));
     scene->addItem(scores);
 
 

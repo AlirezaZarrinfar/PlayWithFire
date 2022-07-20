@@ -9,6 +9,8 @@
         <file alias="charBlue1">resources/images/character-blue1.png</file>
         <file alias="charBlue2">resources/images/character-blue2.png</file>
         <file alias="bomb">resources/images/Bomb_icon.png</file>
+        <file alias="bomb2">resources/images/Bomb_icon2.png</file>
+        <file alias="bomb3">resources/images/explosion.png</file>
         <file alias="empty">resources/images/empty.png</file>
         <file alias="home">resources/images/Home.png</file>
         <file alias="end">resources/images/endpage.png</file>

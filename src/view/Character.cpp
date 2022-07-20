@@ -18,7 +18,9 @@ Character::Character(QList<QString> list, int width , int height) : heigth(heigh
         {
             Label *label = dynamic_cast<Label *>(item);
             Block *block = dynamic_cast<Block *>(item);
-            if(block != nullptr || label != nullptr)
+            QGraphicsRectItem *rect = dynamic_cast<QGraphicsRectItem *>(item);
+
+            if(block != nullptr || label != nullptr || rect != nullptr)
             {
                 return true;
             }

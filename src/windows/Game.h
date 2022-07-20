@@ -12,6 +12,10 @@ private:
     Label * label2 ;
     Label * label3 ;
     Label * label4 ;
+    Label * label5 ;
+    Label * label6 ;
+    Label * label7 ;
+
     QString name1;
     QString name2;
 public:
@@ -20,6 +24,7 @@ public slots:
     void bombDestroyed(int x , int y , QString bombSender);
 protected:
     void keyPressEvent(QKeyEvent *event) override;
+   // void keyReleaseEvent(QKeyEvent *event) override;
 };
 
 

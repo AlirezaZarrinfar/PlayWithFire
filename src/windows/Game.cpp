@@ -23,7 +23,7 @@ Game::Game(QString name1,QString name2,int lifes) : QGraphicsView(){
     setFocus();
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-   showFullScreen();
+    showFullScreen();
     //resize(1920/2*1.5,1080/2*1.5);
     this->name1 = name1;
     this->name2 = name2;
@@ -32,7 +32,6 @@ Game::Game(QString name1,QString name2,int lifes) : QGraphicsView(){
     scene->setSceneRect(0,0,width(),height());
     scene->setBackgroundBrush(QColor("black"));
     setScene(scene);
-
 
 
     for(int i=0;i<15;i++)
@@ -96,13 +95,13 @@ Game::Game(QString name1,QString name2,int lifes) : QGraphicsView(){
 
 
     label1 = new Label(scene->width(),scene->height());
-    label1->setPos(scene->width()/20,0);
+    label1->setPos(scene->width()/18,0);
     QString string = QString::number(redChar->life);
     label1->setDefaultTextColor(QColor("Red"));
     label1->setPlainText(name1 + " life: " + string);
 
     label2 = new Label(scene->width(),scene->height());
-    label2->setPos(2*(scene->width()/15),0);
+    label2->setPos(label1->x()+label1->boundingRect().width()+scene->width()/25,0);
     QString string2 = QString::number(blueChar->life);
     label2->setDefaultTextColor(QColor("Blue"));
     label2->setPlainText(name2 +" life: " + string2);
@@ -116,19 +115,41 @@ Game::Game(QString name1,QString name2,int lifes) : QGraphicsView(){
     label3->setPlainText(name1 +" : " + string3);
 
     label4 = new Label(scene->width(),scene->height());
-    label4->setPos((scene->width()/2)+(scene->width()/15),0);
+    label4->setPos(label3->x()+label3->boundingRect().width()+scene->width()/25,0);
     QString string4 = QString::number(blueChar->score);
     label4->setDefaultTextColor(QColor("Blue"));
     label4->setPlainText(name2 +" : " + string4);
 
+
   //  scene->addRect(QRect(scene->width()/2 - scene->width()/13 , 0,(label3->toPlainText().size() + label4->toPlainText().size())*width()/80,scene->height()/22),QPen(QColor("Black"),1),QBrush(QColor("Orange")));
     scene->addRect(QRect(scene->width()/23 , 0,width()-scene->width()/11,scene->height()/22),QPen(QColor("black"),1),QBrush(QColor("Orange")));
+
+
     scene->addItem(label2);
     scene->addItem(label1);
     scene->addItem(label3);
     scene->addItem(label4);
 
+    label7 = new Label(scene->width(),scene->height());
+    label7->setPos(scene->width()-(scene->width()/5),0);
+    label7->setDefaultTextColor(QColor("black"));
+    label7->setPlainText( "Bomb Radius : ");
 
+    label5 = new Label(scene->width(),scene->height());
+    label5->setPos(label7->x()+label7->boundingRect().width()+scene->width()/200,0);
+    QString string5 = QString::number(redChar->bombRadius);
+    label5->setDefaultTextColor(QColor("Red "));
+    label5->setPlainText( string5);
+
+    label6 = new Label(scene->width(),scene->height());
+    label6->setPos(label5->x()+label5->boundingRect().width()+scene->width()/200,0);
+    QString string6 = QString::number(blueChar->bombRadius);
+    label6->setDefaultTextColor(QColor("Blue"));
+    label6->setPlainText( string6);
+
+    scene->addItem(label7);
+    scene->addItem(label5);
+    scene->addItem(label6);
 }
 void Game::keyPressEvent(QKeyEvent *event) {
     QGraphicsView::keyPressEvent(event);
@@ -185,6 +206,8 @@ void Game::keyPressEvent(QKeyEvent *event) {
         }
     }
 }
+
+
 
 void Game::bombDestroyed(int x , int y , QString bombSender) {
     Character * temp ;

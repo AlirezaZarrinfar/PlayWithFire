@@ -12,14 +12,17 @@ private:
     int width{};
     int height{};
     QTimer *timer;
+    int i{0};
+    QList<QString> * icons;
 public:
-    int bombTime{3};
+    int bombTime{4};
     QString bombSender{};
     bool isActived{false};
     Bomb(int x,int y,int height , int width);
     void Timer();
 public slots:
     void explosion();
+    void changeBombPic();
 signals:
     void destroyed(int x,int y , QString bombsender);
 };
