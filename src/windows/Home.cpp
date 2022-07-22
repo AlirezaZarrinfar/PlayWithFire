@@ -6,7 +6,7 @@
 #include "../view/Button.h"
 #include "Game.h"
 #include "Scoreboard.h"
-
+#include <QMediaPlayer>
 Home::Home() {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

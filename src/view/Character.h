@@ -20,6 +20,7 @@ public:
     int bombRadius{2};
     Character(QList<QString> list, int width , int height);
     bool checkWallOrBox();
+    bool checkItem();
     bool chechCharacter();
     void moveChar(int x , int y);
     Bomb * createBomb();

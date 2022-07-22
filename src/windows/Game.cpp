@@ -47,7 +47,7 @@ Game::Game(QString name1,QString name2,int lifes) : QGraphicsView(){
 
     srand(time(0));
 
-    for (int z = 0;z<80;z++) {
+    for (int z = 1;z<=87;z++) {
       int i = rand()%15;
       int j = rand()%15;
       if (i != 0 && i != 14 && j != 0 && j != 14 &&
@@ -58,9 +58,27 @@ Game::Game(QString name1,QString name2,int lifes) : QGraphicsView(){
 
           auto box = new class Box(width(), height());
           box->setPos(i * (width() / 15), j * (height() / 15));
+
+          if (z%7 == 0)
+          {
+              QPixmap pixmap(":/images/boxitem");
+              pixmap = pixmap.scaled(width() / 15, height() / 15);
+              box->setPixmap(pixmap);
+              box->hasItem = true;
+              if (z < 43) {
+                  box->typeOfItem = "heart";
+              }
+              else
+              {
+                  box->typeOfItem = "radius";
+              }
+          }
+
           scene->addItem(box);
+
           if(box->checkBox())
           {
+              box->temp = true;
               delete box;
               z--;
           }
@@ -205,6 +223,17 @@ void Game::keyPressEvent(QKeyEvent *event) {
         pressedKeys -= ((QKeyEvent*)event)->key();
     }
 
+    QString string = QString::number(redChar->life);
+    label1->setPlainText(name1 + " life: " + string);
+
+    QString string2 = QString::number(blueChar->life);
+    label2->setPlainText(name2 + " life: " + string2);
+
+    QString string5 = QString::number(redChar->bombRadius);
+    label5->setPlainText( string5);
+
+    QString string6 = QString::number(blueChar->bombRadius);
+    label6->setPlainText( string6);
 }
 
 

@@ -40,6 +40,27 @@ Character::Character(QList<QString> list, int width , int height) : heigth(heigh
         }
     }
 
+bool Character::checkItem() {
+    for(QGraphicsItem *item : collidingItems())
+    {
+        Item * item1 = dynamic_cast<Item *>(item);
+        if(item1 != nullptr)
+        {
+            if (item1->type == "heart") {
+                life++;
+            }
+            else
+            {
+                bombRadius ++ ;
+            }
+            delete item1;
+            return true;
+        }
+        return false;
+    }
+}
+
+
     void Character::moveChar(int x, int y) {
 
         int tempX = this->x();
@@ -49,6 +70,7 @@ Character::Character(QList<QString> list, int width , int height) : heigth(heigh
             setPos(tempX, tempY);
         }
         else{
+            checkItem();
             i++;
             pixmap = QPixmap(":/images/" + list.at(i%2));
             pixmap = pixmap.scaled(width / 15, heigth / 15);

@@ -14,5 +14,8 @@
         <file alias="empty">resources/images/empty.png</file>
         <file alias="home">resources/images/Home.png</file>
         <file alias="end">resources/images/endpage.png</file>
+        <file alias="boxitem">resources/images/boxitem.png</file>
+        <file alias="heart">resources/images/heart.png</file>
+        <file alias="radius">resources/images/BombRadius.png</file>
     </qresource>
 </RCC>
