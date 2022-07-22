@@ -1,3 +1,5 @@
+#include <QFile>
+#include <QCoreApplication>
 #include "Home.h"
 #include "../view/TextField.h"
 #include "../view/Label.h"
@@ -55,12 +57,23 @@ Home::Home() {
     scene->addItem(button);
     button->setPos(width()/2- scene->width()/9/2,height()/2+button->boundingRect().height()+height()/30);
 
+
+    QFile file("../file.txt");
+    file.open(QIODevice::ReadOnly);
+    QString strFile = file.readAll();
+    QStringList list = strFile.split(" ");
+    textField1->setPlainText(list.at(0));
+    textField2->setPlainText(list.at(1));
+    textField3->setPlainText(list.at(2));
+    file.close();
+
+
     connect(button,&Button::onPress,this,&Home::onGameStart);
 }
 
 void Home::onGameStart() {
-    auto name1=textField1->toPlainText();
-    auto name2 = textField2->toPlainText();
+    QString name1=textField1->toPlainText();
+    QString name2 = textField2->toPlainText();
     auto lifes = textField3->toPlainText().toInt();
 
     if(lifes == 0)
@@ -70,6 +83,11 @@ void Home::onGameStart() {
     else if (!(name2.isEmpty()) && !(name1.isEmpty()))
     {
         (new Game(name1,name2,lifes))->show();
+        QFile file("../file.txt");
+        file.open(QIODevice::WriteOnly);
+        file.write(name1.toUtf8() + " " + name2.toUtf8() + " " + QString::number(lifes).toUtf8());
+        file.flush();
+        file.close();
         this->close();
        // (new Scoreboard(100,150,name1,name2))->show();
     }
