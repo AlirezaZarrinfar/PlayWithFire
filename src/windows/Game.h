@@ -24,7 +24,7 @@ public slots:
     void bombDestroyed(int x , int y , QString bombSender);
 protected:
     void keyPressEvent(QKeyEvent *event) override;
-   // void keyReleaseEvent(QKeyEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
 };
 
 

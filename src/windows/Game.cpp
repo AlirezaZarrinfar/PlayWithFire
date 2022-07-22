@@ -151,61 +151,73 @@ Game::Game(QString name1,QString name2,int lifes) : QGraphicsView(){
     scene->addItem(label5);
     scene->addItem(label6);
 }
+QSet<int> pressedKeys;
+
 void Game::keyPressEvent(QKeyEvent *event) {
     QGraphicsView::keyPressEvent(event);
     //Red Char
-    if(event->key() == Qt::Key::Key_Right)
-    {
-        redChar->moveChar(redChar->x() + scene()->width()/15,redChar->y());
-    }
-    else if(event->key() == Qt::Key::Key_Left)
-    {
-        redChar->moveChar(redChar->x() - scene()->width()/15,redChar->y());
+    if (event->type() == QEvent::KeyPress) {
+        pressedKeys += ((QKeyEvent *) event)->key();
+        if (pressedKeys.contains(Qt::Key_Right)) {
+            redChar->moveChar(redChar->x() + scene()->width() / 15, redChar->y());
+        }
+        if (pressedKeys.contains(Qt::Key_Left)) {
+            redChar->moveChar(redChar->x() - scene()->width() / 15, redChar->y());
+        }
+        if (pressedKeys.contains(Qt::Key_Down)) {
+            redChar->moveChar(redChar->x(), redChar->y() + scene()->height() / 15);
+        }
+        if (pressedKeys.contains(Qt::Key_Up)) {
+            redChar->moveChar(redChar->x(), redChar->y() - scene()->height() / 15);
+        }
+        if (pressedKeys.contains(Qt::Key_Space)) {
+            auto bomb = redChar->createBomb();
+            if (bomb != nullptr) {
+                connect(bomb, &Bomb::destroyed, this, &Game::bombDestroyed);
+                scene()->addItem(bomb);
+            }
+        }
 
-    }
-    else if(event->key() == Qt::Key::Key_Down)
-    {
-        redChar->moveChar(redChar->x() ,redChar->y()+ scene()->height()/15);
-    }
-    else if(event->key() == Qt::Key::Key_Up)
-    {
-        redChar->moveChar(redChar->x() ,redChar->y()- scene()->height()/15);
-    }
-    else if(event->key() == Qt::Key::Key_Space)
-    {
-        auto bomb = redChar->createBomb();
-        if(bomb != nullptr){
-            connect(bomb,&Bomb::destroyed, this, &Game::bombDestroyed);
-            scene()->addItem(bomb);
+        //Blue Char
+        if (pressedKeys.contains(Qt::Key_D)) {
+            blueChar->moveChar(blueChar->x() + scene()->width() / 15, blueChar->y());
+        }
+        if (pressedKeys.contains(Qt::Key_A)) {
+            blueChar->moveChar(blueChar->x() - scene()->width() / 15, blueChar->y());
+
+        }
+        if (pressedKeys.contains(Qt::Key_S)) {
+            blueChar->moveChar(blueChar->x(), blueChar->y() + scene()->height() / 15);
+        }
+        if (pressedKeys.contains(Qt::Key_W)) {
+            blueChar->moveChar(blueChar->x(), blueChar->y() - scene()->height() / 15);
+        }
+        if (pressedKeys.contains(Qt::Key_X)) {
+            auto bomb = blueChar->createBomb();
+            if (bomb != nullptr) {
+                connect(bomb, &Bomb::destroyed, this, &Game::bombDestroyed);
+                scene()->addItem(bomb);
+            }
         }
     }
-    //Blue Char
-    if(event->key() == Qt::Key::Key_D)
+    else if(event->type()==QEvent::KeyRelease)
     {
-        blueChar->moveChar(blueChar->x() + scene()->width()/15,blueChar->y());
+        pressedKeys -= ((QKeyEvent*)event)->key();
     }
-    else if(event->key() == Qt::Key::Key_A)
-    {
-        blueChar->moveChar(blueChar->x() - scene()->width()/15,blueChar->y());
 
-    }
-    else if(event->key() == Qt::Key::Key_S)
-    {
-        blueChar->moveChar(blueChar->x() ,blueChar->y()+ scene()->height()/15);
-    }
-    else if(event->key() == Qt::Key::Key_W)
-    {
-        blueChar->moveChar(blueChar->x() ,blueChar->y()- scene()->height()/15);
-    }
-    else if(event->key() == Qt::Key::Key_X)
-    {
-        auto bomb = blueChar->createBomb();
-        if(bomb != nullptr) {
-            connect(bomb, &Bomb::destroyed, this, &Game::bombDestroyed);
-            scene()->addItem(bomb);
-        }
-    }
 }
+
+
+void Game::keyReleaseEvent(QKeyEvent *event) {
+    QGraphicsView::keyReleaseEvent(event);
+
+    if(event->type()==QEvent::KeyRelease)
+    {
+        pressedKeys -= ((QKeyEvent*)event)->key();
+    }
+
+}
+
 
 
 
