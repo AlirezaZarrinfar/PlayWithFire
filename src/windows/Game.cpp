@@ -19,14 +19,15 @@
 #include <QGraphicsProxyWidget>
 
 
-Game::Game(QString name1,QString name2,int lifes) : QGraphicsView(){
+Game::Game(QString player1Name, QString player2Name, int lifes) : QGraphicsView(){
     setFocus();
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     showFullScreen();
     //resize(1920/2*1.5,1080/2*1.5);
-    this->name1 = name1;
-    this->name2 = name2;
+
+    this->player1Name = player1Name;
+    this->player2Name = player2Name;
 
     auto scene =new QGraphicsScene(this);
     scene->setSceneRect(0,0,width(),height());
@@ -36,7 +37,7 @@ Game::Game(QString name1,QString name2,int lifes) : QGraphicsView(){
 
     for(int i=0;i<15;i++)
         for(int j=0;j<15;j++){
-          //
+
             if(i !=0&&i !=14 && j !=0 && j !=14 &&
                     (j%2 !=0 || i%2 !=0))
                 continue;
@@ -46,131 +47,116 @@ Game::Game(QString name1,QString name2,int lifes) : QGraphicsView(){
         }
 
     srand(time(0));
-
     for (int z = 1;z<=87;z++) {
-      int i = rand()%15;
-      int j = rand()%15;
-      if (i != 0 && i != 14 && j != 0 && j != 14 &&
-          (j % 2 != 0 || i % 2 != 0) && !(i == 1 && j==1) && !(i == 1 && j==2) && !(i == 2 && j==1)
-          && !(i == 12 && j==13) && !(i == 13 && j==13) && !(i == 13 && j==12)
-          && !(i == 1 && j==3) && !(i == 3 && j==1) && !(i == 11 && j==13) && !(i == 13 && j==11)
-          ) {
+        int i = rand() % 15;
+        int j = rand() % 15;
+        if (i != 0 && i != 14 && j != 0 && j != 14 &&
+            (j % 2 != 0 || i % 2 != 0) && !(i == 1 && j == 1) && !(i == 1 && j == 2) && !(i == 2 && j == 1)
+            && !(i == 12 && j == 13) && !(i == 13 && j == 13) && !(i == 13 && j == 12)
+            && !(i == 1 && j == 3) && !(i == 3 && j == 1) && !(i == 11 && j == 13) && !(i == 13 && j == 11)
+                ) {
 
-          auto box = new class Box(width(), height());
-          box->setPos(i * (width() / 15), j * (height() / 15));
+            auto box = new class Box(width(), height());
+            box->setPos(i * (width() / 15), j * (height() / 15));
 
-          if (z%7 == 0)
-          {
-              QPixmap pixmap(":/images/boxitem");
-              pixmap = pixmap.scaled(width() / 15, height() / 15);
-              box->setPixmap(pixmap);
-              box->hasItem = true;
-              if (z < 43) {
-                  box->typeOfItem = "heart";
-              }
-              else
-              {
-                  box->typeOfItem = "radius";
-              }
-          }
+            if (z % 7 == 0) {
+                QPixmap pixmap(":/images/boxitem");
+                pixmap = pixmap.scaled(width() / 15, height() / 15);
+                box->setPixmap(pixmap);
+                box->hasItem = true;
+                if (z < 43) {
+                    box->typeOfItem = "heart";
+                } else {
+                    box->typeOfItem = "radius";
+                }
+            }
 
-          scene->addItem(box);
+            scene->addItem(box);
 
-          if(box->checkBox())
-          {
-              box->temp = true;
-              delete box;
-              z--;
-          }
-      }
-      else
-      {
-          z--;
-      }
-  }
-    QList<QString>  redPix;
-    redPix.append("charRed1");
-    redPix.append("charRed2");
+            if (box->checkBox()) {
+                box->temp = true;
+                delete box;
+                z--;
+            }
+        } else {
+            z--;
+        }
+    }
 
-    redChar = new Character(redPix, width(), height());
+
+    redChar = new Character( width(), height() , "Red");
     redChar->setPos(scene->width()/15,scene->height()/15);
-    redChar->type = "Red";
     redChar->life = lifes;
     scene->addItem(redChar);
 
-    QList<QString>  bluePix;
-    bluePix.append("charBlue1");
-    bluePix.append("charBlue2");
 
 
-    blueChar = new Character(bluePix, width(), height());
+    blueChar = new Character( width(), height(),"Blue");
     blueChar->setPos(scene->width()*13/15 ,scene->height()*13/15);
-    blueChar->type = "Blue";
     blueChar->life = lifes;
     scene->addItem(blueChar);
 
 
 
 
-    label1 = new Label(scene->width(),scene->height());
-    label1->setPos(scene->width()/18,0);
-    QString string = QString::number(redChar->life);
-    label1->setDefaultTextColor(QColor("Red"));
-    label1->setPlainText(name1 + " life: " + string);
+    redLifeLabel = new Label(scene->width(), scene->height());
+    redLifeLabel->setPos(scene->width() / 18, 0);
+    QString redLifeString = QString::number(redChar->life);
+    redLifeLabel->setDefaultTextColor(QColor("Red"));
+    redLifeLabel->setPlainText(player1Name + " life: " + redLifeString);
 
-    label2 = new Label(scene->width(),scene->height());
-    label2->setPos(label1->x()+label1->boundingRect().width()+scene->width()/25,0);
-    QString string2 = QString::number(blueChar->life);
-    label2->setDefaultTextColor(QColor("Blue"));
-    label2->setPlainText(name2 +" life: " + string2);
-
-
-
-    label3 = new Label(scene->width(),scene->height());
-    label3->setPos((scene->width()/2)-(scene->width()/15),0);
-    QString string3 = QString::number(redChar->score);
-    label3->setDefaultTextColor(QColor("Red"));
-    label3->setPlainText(name1 +" : " + string3);
-
-    label4 = new Label(scene->width(),scene->height());
-    label4->setPos(label3->x()+label3->boundingRect().width()+scene->width()/25,0);
-    QString string4 = QString::number(blueChar->score);
-    label4->setDefaultTextColor(QColor("Blue"));
-    label4->setPlainText(name2 +" : " + string4);
+    blueLifeLabel = new Label(scene->width(), scene->height());
+    blueLifeLabel->setPos(redLifeLabel->x() + redLifeLabel->boundingRect().width() + scene->width() / 25, 0);
+    QString blueLifeString = QString::number(blueChar->life);
+    blueLifeLabel->setDefaultTextColor(QColor("Blue"));
+    blueLifeLabel->setPlainText(player2Name + " life: " + blueLifeString);
 
 
-  //  scene->addRect(QRect(scene->width()/2 - scene->width()/13 , 0,(label3->toPlainText().size() + label4->toPlainText().size())*width()/80,scene->height()/22),QPen(QColor("Black"),1),QBrush(QColor("Orange")));
+
+    redScoreLabel = new Label(scene->width(), scene->height());
+    redScoreLabel->setPos((scene->width() / 2) - (scene->width() / 15), 0);
+    QString redScoreString = QString::number(redChar->score);
+    redScoreLabel->setDefaultTextColor(QColor("Red"));
+    redScoreLabel->setPlainText(player1Name + " : " + redScoreString);
+
+    blueScoreLabel = new Label(scene->width(), scene->height());
+    blueScoreLabel->setPos(redScoreLabel->x() + redScoreLabel->boundingRect().width() + scene->width() / 25, 0);
+    QString blueScoreString = QString::number(blueChar->score);
+    blueScoreLabel->setDefaultTextColor(QColor("Blue"));
+    blueScoreLabel->setPlainText(player2Name + " : " + blueScoreString);
+
+
     scene->addRect(QRect(scene->width()/23 , 0,width()-scene->width()/11,scene->height()/22),QPen(QColor("black"),1),QBrush(QColor("Orange")));
 
 
-    scene->addItem(label2);
-    scene->addItem(label1);
-    scene->addItem(label3);
-    scene->addItem(label4);
+    scene->addItem(blueLifeLabel);
+    scene->addItem(redLifeLabel);
+    scene->addItem(redScoreLabel);
+    scene->addItem(blueScoreLabel);
 
-    label7 = new Label(scene->width(),scene->height());
-    label7->setPos(scene->width()-(scene->width()/5),0);
-    label7->setDefaultTextColor(QColor("black"));
-    label7->setPlainText( "Bomb Radius : ");
+    bombRadiusLabel = new Label(scene->width(), scene->height());
+    bombRadiusLabel->setPos(scene->width() - (scene->width() / 5), 0);
+    bombRadiusLabel->setDefaultTextColor(QColor("black"));
+    bombRadiusLabel->setPlainText("Bomb Radius : ");
 
-    label5 = new Label(scene->width(),scene->height());
-    label5->setPos(label7->x()+label7->boundingRect().width()+scene->width()/200,0);
-    QString string5 = QString::number(redChar->bombRadius);
-    label5->setDefaultTextColor(QColor("Red "));
-    label5->setPlainText( string5);
+    redBombsLabel = new Label(scene->width(), scene->height());
+    redBombsLabel->setPos(bombRadiusLabel->x() + bombRadiusLabel->boundingRect().width() + scene->width() / 200, 0);
+    QString redBombsString = QString::number(redChar->bombRadius);
+    redBombsLabel->setDefaultTextColor(QColor("Red "));
+    redBombsLabel->setPlainText(redBombsString);
 
-    label6 = new Label(scene->width(),scene->height());
-    label6->setPos(label5->x()+label5->boundingRect().width()+scene->width()/200,0);
-    QString string6 = QString::number(blueChar->bombRadius);
-    label6->setDefaultTextColor(QColor("Blue"));
-    label6->setPlainText( string6);
+    blueBombsLabel = new Label(scene->width(), scene->height());
+    blueBombsLabel->setPos(redBombsLabel->x() + redBombsLabel->boundingRect().width() + scene->width() / 200, 0);
+    QString blueBombsString = QString::number(blueChar->bombRadius);
+    blueBombsLabel->setDefaultTextColor(QColor("Blue"));
+    blueBombsLabel->setPlainText(blueBombsString);
 
-    scene->addItem(label7);
-    scene->addItem(label5);
-    scene->addItem(label6);
+    scene->addItem(bombRadiusLabel);
+    scene->addItem(redBombsLabel);
+    scene->addItem(blueBombsLabel);
 }
-QSet<int> pressedKeys;
 
+QSet<int> pressedKeys;
 void Game::keyPressEvent(QKeyEvent *event) {
     QGraphicsView::keyPressEvent(event);
     //Red Char
@@ -223,17 +209,17 @@ void Game::keyPressEvent(QKeyEvent *event) {
         pressedKeys -= ((QKeyEvent*)event)->key();
     }
 
-    QString string = QString::number(redChar->life);
-    label1->setPlainText(name1 + " life: " + string);
+    QString redLifeString = QString::number(redChar->life);
+    redLifeLabel->setPlainText(player1Name + " life: " + redLifeString);
 
-    QString string2 = QString::number(blueChar->life);
-    label2->setPlainText(name2 + " life: " + string2);
+    QString blueLifeString = QString::number(blueChar->life);
+    blueLifeLabel->setPlainText(player2Name + " life: " + blueLifeString);
 
-    QString string5 = QString::number(redChar->bombRadius);
-    label5->setPlainText( string5);
+    QString redRadiusString = QString::number(redChar->bombRadius);
+    redBombsLabel->setPlainText(redRadiusString);
 
-    QString string6 = QString::number(blueChar->bombRadius);
-    label6->setPlainText( string6);
+    QString blueRadiusString = QString::number(blueChar->bombRadius);
+    blueBombsLabel->setPlainText(blueRadiusString);
 }
 
 
@@ -330,20 +316,20 @@ void Game::bombDestroyed(int x , int y , QString bombSender) {
     delete Empty;
     if (blueChar->life == 0 || redChar->life==0)
     {
+        (new Scoreboard(redChar->score, blueChar->score, player1Name, player2Name))->show();
         close();
-        (new Scoreboard(redChar->score,blueChar->score,name1,name2))->show();
     }
     QString string = QString::number(redChar->life);
-    label1->setPlainText(name1 + " life: " + string);
+    redLifeLabel->setPlainText(player1Name + " life: " + string);
 
     QString string2 = QString::number(blueChar->life);
-    label2->setPlainText(name2 + " life: " + string2);
+    blueLifeLabel->setPlainText(player2Name + " life: " + string2);
 
     QString string3 = QString::number(redChar->score);
-    label3->setPlainText(name1 + " : " + string3);
+    redScoreLabel->setPlainText(player1Name + " : " + string3);
 
     QString string4 = QString::number(blueChar->score);
-    label4->setPlainText(name2 + " : " + string4);
+    blueScoreLabel->setPlainText(player2Name + " : " + string4);
 
 }
 

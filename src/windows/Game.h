@@ -8,18 +8,18 @@ class Game : public QGraphicsView{
 private:
     Character * redChar;
     Character * blueChar;
-    Label * label1 ;
-    Label * label2 ;
-    Label * label3 ;
-    Label * label4 ;
-    Label * label5 ;
-    Label * label6 ;
-    Label * label7 ;
+    Label * redLifeLabel ;
+    Label * blueLifeLabel ;
+    Label * redScoreLabel ;
+    Label * blueScoreLabel ;
+    Label * redBombsLabel ;
+    Label * blueBombsLabel ;
+    Label * bombRadiusLabel ;
 
-    QString name1;
-    QString name2;
+    QString player1Name;
+    QString player2Name;
 public:
-    Game(QString name1,QString name2,int lifes);
+    Game(QString player1Name, QString player2Name, int lifes);
 public slots:
     void bombDestroyed(int x , int y , QString bombSender);
 protected:

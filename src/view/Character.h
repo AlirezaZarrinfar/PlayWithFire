@@ -18,7 +18,7 @@ public:
     QString type {};
     int score{0};
     int bombRadius{2};
-    Character(QList<QString> list, int width , int height);
+    Character( int width , int height , QString type);
     bool checkWallOrBox();
     bool checkItem();
     bool chechCharacter();

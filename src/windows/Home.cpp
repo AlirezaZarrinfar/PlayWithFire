@@ -89,7 +89,7 @@ void Home::onGameStart() {
         file.flush();
         file.close();
         this->close();
-       // (new Scoreboard(100,150,name1,name2))->show();
+       // (new Scoreboard(100,150,player1Name,player2Name))->show();
     }
 }
 

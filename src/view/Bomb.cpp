@@ -10,26 +10,30 @@ Bomb::Bomb(int x,int y,int height , int width) : x(x) , height(height) , width(w
     pixmap = pixmap.scaled(width/15,height/15);
     setPixmap(pixmap);
     i++;
-    timer = new QTimer();
-    timer->setInterval(200);
-    timer->start();
-    isActived = true;
-    connect(timer,&QTimer::timeout, this,&Bomb::changeBombPic);
+    changePicTimer();
     setPos(x,y);
     Timer();
 }
 
+void Bomb::changePicTimer() {
+    picTimer = new QTimer();
+    picTimer->setInterval(200);
+    picTimer->start();
+    connect(picTimer,&QTimer::timeout, this,&Bomb::changeBombPic);
+}
 void Bomb::Timer() {
-    timer = new QTimer();
-    timer->setInterval(bombTime*1000);
-    timer->start();
+    bombTimer = new QTimer();
+    bombTimer->setInterval(bombTime * 1000);
+    bombTimer->start();
     isActived = true;
-    connect(timer,&QTimer::timeout, this,&Bomb::explosion);
+    connect(bombTimer, &QTimer::timeout, this, &Bomb::explosion);
 }
 void Bomb::explosion() {
     isActived = false;
     emit destroyed(x,y,bombSender);
-    delete timer;
+    delete icons;
+    delete bombTimer;
+    delete picTimer;
     delete this;
 }
 

@@ -11,9 +11,11 @@ private:
     int y{};
     int width{};
     int height{};
-    QTimer *timer;
+    QTimer *bombTimer;
+    QTimer *picTimer;
     int i{0};
     QList<QString> * icons;
+    void changePicTimer();
 public:
     int bombTime{4};
     QString bombSender{};

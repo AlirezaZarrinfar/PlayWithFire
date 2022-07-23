@@ -6,8 +6,11 @@
 #include "../view/Block.h"
 #include "Label.h"
 
-Character::Character(QList<QString> list, int width , int height) : heigth(height), width(width) {
-    this->list = list;
+Character::Character( int width , int height , QString type) : heigth(height), width(width) {
+
+    list.append("char"+ type +"1");
+    list.append("char"+ type +"2");
+    this->type = type;
     pixmap =  QPixmap(":/images/" + list.at(0));
     pixmap = pixmap.scaled(width/15,height/15);
         setPixmap(pixmap);
